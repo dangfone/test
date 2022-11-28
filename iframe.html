@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-   
+  <button onclick="getClipboardContents()">Click me</button>
 <script>
   var doc = document;
   var head = doc.head || doc.getElementsByTagName('head')[0];
@@ -38,18 +38,29 @@
       createScript(s)
     }
   }
-
+  var mm
   window.onload = (event) => {
     console.log("page is fully loaded");
-    document.addEventListener('mousemove', mouseMove);
+      //document.addEventListener('mousemove', mouseMove);
   };
+  
+  async function getClipboardContents() {
+    
+    try {
+      const text = await navigator.clipboard.readText();
+      console.log('Pasted content: ', text);
+      //document.addEventListener('mousemove', mouseMove);
+    } catch (err) {
+      console.error('Failed to read clipboard contents: ', err);
+    }
+    
+  }
   
   function mouseMove(){
     console.log("moving")
     window.focus();
-    navigator.clipboard.readText().then(function(txt){
-      console.log(txt)
-    })
+    document.removeEventListener('mousemove', mouseMove);
+    getClipboardContents()
   }
 
   
